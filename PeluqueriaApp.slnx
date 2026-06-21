@@ -1,3 +1,19 @@
 <Solution>
-  <Project Path="PeluqueriaApp/PeluqueriaApp.csproj" />
+  <Folder Name="/01.Capa de Acceso a Datos/">
+    <Project Path="PeluqueriaApp.AccesoDatos/PeluqueriaApp.AccesoDatos.csproj" Id="e20c891c-6770-4582-b8a3-1ee7f8a9abb2" />
+    <Project Path="PeluqueriaApp.Entities/PeluqueriaApp.Entities.csproj" Id="68ebdb19-3840-4c7b-9ba7-cbbbcb11af77" />
+    <Project Path="PeluqueriaApp.Repositorio/PeluqueriaApp.Repositorio.csproj" Id="3bc24e69-254d-4447-91b7-5bee774468c1" />
+  </Folder>
+  <Folder Name="/02.Capa de Negocio/">
+    <Project Path="PeluqueriaApp.Negocio/PeluqueriaApp.Negocio.csproj" Id="d2f27b36-8fa9-4057-9273-b73ee4abf720" />
+  </Folder>
+  <Folder Name="/03.Capa Transversal/">
+    <Project Path="PeluqueriaApp.DTO/PeluqueriaApp.DTO.csproj" Id="3542fc48-5310-4a0b-a77c-cbf03c776996" />
+  </Folder>
+  <Folder Name="/04.Capa de Servidor/">
+    <Project Path="PeluqueriaApp.API/PeluqueriaApp.API.csproj" Id="7416a628-7759-438d-85ef-64f2609d1c51" />
+  </Folder>
+  <Folder Name="/05.Capa Cliente/">
+    <Project Path="PeluqueriaApp/PeluqueriaApp.csproj" />
+  </Folder>
 </Solution>
