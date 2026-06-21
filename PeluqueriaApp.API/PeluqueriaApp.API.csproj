@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PeluqueriaApp.AccesoDatos\PeluqueriaApp.AccesoDatos.csproj" />
+    <ProjectReference Include="..\PeluqueriaApp.Negocio\PeluqueriaApp.Negocio.csproj" />
   </ItemGroup>
 
 </Project>

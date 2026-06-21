@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PeluqueriaApp.AccesoDatos.Models;
+using PeluqueriaApp.Negocio.Implementaciones;
+using PeluqueriaApp.Negocio.Interfaces;
+using PeluqueriaApp.Repositorio.Implementaciones;
+using PeluqueriaApp.Repositorio.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,9 @@ builder.Services.AddDbContext<CitasPeluqueriaContext>(opt =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+builder.Services.AddScoped<IClienteNegocio, ClienteNegocio>();
 
 var app = builder.Build();
 
