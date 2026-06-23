@@ -23,9 +23,9 @@ public partial class CitasPeluqueriaContext : DbContext
 
     public virtual DbSet<Especialidad> Especialidads { get; set; }
 
-    public virtual DbSet<Estilista> Estilista { get; set; }
+    public virtual DbSet<Estilista> Estilistas { get; set; }
 
-   
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cita>(entity =>
