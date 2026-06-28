@@ -5,16 +5,13 @@ using PeluqueriaApp.Negocio.Interfaces;
 using PeluqueriaApp.Repositorio.Implementaciones;
 using PeluqueriaApp.Repositorio.Interfaces;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddDbContext<CitasPeluqueriaContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("CN")));
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
@@ -29,16 +26,26 @@ builder.Services.AddScoped<IEspecialidadNegocio, EspecialidadNegocio>();
 builder.Services.AddScoped<ICitaRepositorio, CitaRepositorio>();
 builder.Services.AddScoped<ICitaNegocio, CitaNegocio>();
 
+// Configuracion CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTodo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+app.UseStaticFiles();
+app.UseCors("PermitirTodo");
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
