@@ -21,7 +21,6 @@ public partial class Cita
 
     public DateTime FechaCreacion { get; set; }
 
-    public virtual Cliente Cliente { get; set; } = null!;
-
-    public virtual Estilista Estilista { get; set; } = null!;
+    public virtual Cliente? Cliente { get; set; }
+    public virtual Estilista? Estilista { get; set; }
 }

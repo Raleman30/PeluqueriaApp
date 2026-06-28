@@ -7,6 +7,10 @@
 </head>
 <body class="bg-light">
 
+    <div class="container mt-3">
+        <a href="index.html" class="btn btn-secondary">⬅️ Volver al menú</a>
+    </div>
+
     <div class="container mt-4">
         <h2 class="mb-4">✂️ Gestión de Clientes</h2>
 
@@ -77,78 +81,78 @@
     </div>
 
     <script>
-    const apiUrl = 'http://localhost:5002/api/Cliente';
+        const apiUrl = 'http://localhost:5002/api/Cliente';
 
-    async function cargarClientes() {
-        const response = await fetch(apiUrl);
-        const clientes = await response.json();
-        const tabla = document.getElementById('tablaClientes');
-        tabla.innerHTML = '';
-        clientes.forEach(c => {
-            tabla.innerHTML += `
-                <tr>
-                    <td>${c.clienteId}</td>
-                    <td>${c.nombre}</td>
-                    <td>${c.telefono}</td>
-                    <td>${c.email}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editar(${c.clienteId}, '${c.nombre}', '${c.telefono}', '${c.email}')">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminar(${c.clienteId})">Eliminar</button>
-                    </td>
-                </tr>`;
-        });
-    }
+        async function cargarClientes() {
+            const response = await fetch(apiUrl);
+            const clientes = await response.json();
+            const tabla = document.getElementById('tablaClientes');
+            tabla.innerHTML = '';
+            clientes.forEach(c => {
+                tabla.innerHTML += `
+                    <tr>
+                        <td>${c.clienteId}</td>
+                        <td>${c.nombre}</td>
+                        <td>${c.telefono}</td>
+                        <td>${c.email}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editar(${c.clienteId}, '${c.nombre}', '${c.telefono}', '${c.email}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminar(${c.clienteId})">Eliminar</button>
+                        </td>
+                    </tr>`;
+            });
+        }
 
-    async function agregar() {
-        const nombre = document.getElementById('nombre').value;
-        const telefono = document.getElementById('telefono').value;
-        const email = document.getElementById('email').value;
-        if (!nombre || !telefono || !email) { alert('Complete todos los campos'); return; }
-        await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, telefono, email })
-        });
-        document.getElementById('nombre').value = '';
-        document.getElementById('telefono').value = '';
-        document.getElementById('email').value = '';
-        cargarClientes();
-    }
-
-    function editar(id, nombre, telefono, email) {
-        document.getElementById('formEditar').style.display = 'block';
-        document.getElementById('editId').value = id;
-        document.getElementById('editNombre').value = nombre;
-        document.getElementById('editTelefono').value = telefono;
-        document.getElementById('editEmail').value = email;
-    }
-
-    async function actualizar() {
-        const id = document.getElementById('editId').value;
-        const nombre = document.getElementById('editNombre').value;
-        const telefono = document.getElementById('editTelefono').value;
-        const email = document.getElementById('editEmail').value;
-        await fetch(`${apiUrl}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, telefono, email })
-        });
-        cancelarEdicion();
-        cargarClientes();
-    }
-
-    function cancelarEdicion() {
-        document.getElementById('formEditar').style.display = 'none';
-    }
-
-    async function eliminar(id) {
-        if (confirm('¿Desea eliminar este cliente?')) {
-            await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+        async function agregar() {
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const email = document.getElementById('email').value;
+            if (!nombre || !telefono || !email) { alert('Complete todos los campos'); return; }
+            await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, telefono, email })
+            });
+            document.getElementById('nombre').value = '';
+            document.getElementById('telefono').value = '';
+            document.getElementById('email').value = '';
             cargarClientes();
         }
-    }
 
-    cargarClientes();
+        function editar(id, nombre, telefono, email) {
+            document.getElementById('formEditar').style.display = 'block';
+            document.getElementById('editId').value = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editTelefono').value = telefono;
+            document.getElementById('editEmail').value = email;
+        }
+
+        async function actualizar() {
+            const id = document.getElementById('editId').value;
+            const nombre = document.getElementById('editNombre').value;
+            const telefono = document.getElementById('editTelefono').value;
+            const email = document.getElementById('editEmail').value;
+            await fetch(`${apiUrl}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, telefono, email })
+            });
+            cancelarEdicion();
+            cargarClientes();
+        }
+
+        function cancelarEdicion() {
+            document.getElementById('formEditar').style.display = 'none';
+        }
+
+        async function eliminar(id) {
+            if (confirm('¿Desea eliminar este cliente?')) {
+                await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+                cargarClientes();
+            }
+        }
+
+        cargarClientes();
     </script>
 
 </body>

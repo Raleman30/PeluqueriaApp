@@ -21,5 +21,5 @@ public partial class Estilista
 
     public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
 
-    public virtual Especialidad Especialidad { get; set; } = null!;
+    public virtual Especialidad? Especialidad { get; set; }
 }

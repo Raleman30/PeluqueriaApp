@@ -7,10 +7,13 @@
 </head>
 <body class="bg-light">
 
+    <div class="container mt-3">
+        <a href="index.html" class="btn btn-secondary">⬅️ Volver al menú</a>
+    </div>
+
     <div class="container mt-4">
         <h2 class="mb-4">💇 Gestión de Estilistas</h2>
 
-        <!-- Formulario agregar -->
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">Agregar Estilista</div>
             <div class="card-body">
@@ -36,7 +39,6 @@
             </div>
         </div>
 
-        <!-- Formulario editar -->
         <div class="card mb-4" id="formEditar" style="display:none;">
             <div class="card-header bg-warning text-dark">Editar Estilista</div>
             <div class="card-body">
@@ -66,7 +68,6 @@
             </div>
         </div>
 
-        <!-- Lista -->
         <div class="card">
             <div class="card-header bg-dark text-white">Lista de Estilistas</div>
             <div class="card-body">
@@ -88,95 +89,127 @@
     </div>
 
     <script>
-    const apiUrl = 'http://localhost:5002/api/Estilista';
-    const apiEspecialidades = 'http://localhost:5002/api/Especialidad';
+        const apiUrl = 'http://localhost:5002/api/Estilista';
+        const apiEspecialidades = 'http://localhost:5002/api/Especialidad';
 
-    async function cargarEspecialidades() {
-        const response = await fetch(apiEspecialidades);
-        const especialidades = await response.json();
-        const select = document.getElementById('especialidadId');
-        const selectEdit = document.getElementById('editEspecialidadId');
-        especialidades.forEach(e => {
-            select.innerHTML += `<option value="${e.especialidadId}">${e.nombre}</option>`;
-            selectEdit.innerHTML += `<option value="${e.especialidadId}">${e.nombre}</option>`;
-        });
-    }
-
-    async function cargarEstilistas() {
-        const response = await fetch(apiUrl);
-        const estilistas = await response.json();
-        const tabla = document.getElementById('tablaEstilistas');
-        tabla.innerHTML = '';
-        estilistas.forEach(e => {
-            tabla.innerHTML += `
-                <tr>
-                    <td>${e.estilistaId}</td>
-                    <td>${e.nombre}</td>
-                    <td>${e.telefono}</td>
-                    <td>${e.email}</td>
-                    <td>${e.especialidadId}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editar(${e.estilistaId}, '${e.nombre}', '${e.telefono}', '${e.email}', ${e.especialidadId})">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminar(${e.estilistaId})">Eliminar</button>
-                    </td>
-                </tr>`;
-        });
-    }
-
-    async function agregar() {
-        const nombre = document.getElementById('nombre').value;
-        const telefono = document.getElementById('telefono').value;
-        const email = document.getElementById('email').value;
-        const especialidadId = document.getElementById('especialidadId').value;
-        if (!nombre || !telefono || !email || !especialidadId) { alert('Complete todos los campos'); return; }
-        await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, telefono, email, especialidadId: parseInt(especialidadId) })
-        });
-        document.getElementById('nombre').value = '';
-        document.getElementById('telefono').value = '';
-        document.getElementById('email').value = '';
-        cargarEstilistas();
-    }
-
-    function editar(id, nombre, telefono, email, especialidadId) {
-        document.getElementById('formEditar').style.display = 'block';
-        document.getElementById('editId').value = id;
-        document.getElementById('editNombre').value = nombre;
-        document.getElementById('editTelefono').value = telefono;
-        document.getElementById('editEmail').value = email;
-        document.getElementById('editEspecialidadId').value = especialidadId;
-    }
-
-    async function actualizar() {
-        const id = document.getElementById('editId').value;
-        const nombre = document.getElementById('editNombre').value;
-        const telefono = document.getElementById('editTelefono').value;
-        const email = document.getElementById('editEmail').value;
-        const especialidadId = document.getElementById('editEspecialidadId').value;
-        await fetch(`${apiUrl}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, telefono, email, especialidadId: parseInt(especialidadId) })
-        });
-        cancelarEdicion();
-        cargarEstilistas();
-    }
-
-    function cancelarEdicion() {
-        document.getElementById('formEditar').style.display = 'none';
-    }
-
-    async function eliminar(id) {
-        if (confirm('¿Desea eliminar este estilista?')) {
-            await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
-            cargarEstilistas();
+        async function cargarEspecialidades() {
+            const response = await fetch(apiEspecialidades);
+            const especialidades = await response.json();
+            const select = document.getElementById('especialidadId');
+            const selectEdit = document.getElementById('editEspecialidadId');
+            especialidades.forEach(e => {
+                select.innerHTML += `<option value="${e.especialidadId}">${e.nombre}</option>`;
+                selectEdit.innerHTML += `<option value="${e.especialidadId}">${e.nombre}</option>`;
+            });
         }
-    }
 
-    cargarEspecialidades();
-    cargarEstilistas();
+        async function cargarEstilistas() {
+            const response = await fetch(apiUrl);
+            const estilistas = await response.json();
+            const tabla = document.getElementById('tablaEstilistas');
+            tabla.innerHTML = '';
+            estilistas.forEach(e => {
+                tabla.innerHTML += `
+                        <tr>
+                            <td>${e.estilistaId}</td>
+                            <td>${e.nombre}</td>
+                            <td>${e.telefono}</td>
+                            <td>${e.email}</td>
+                            <td>${e.especialidadId}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editar(${e.estilistaId}, '${e.nombre}', '${e.telefono}', '${e.email}', ${e.especialidadId})">Editar</button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminar(${e.estilistaId})">Eliminar</button>
+                            </td>
+                        </tr>`;
+            });
+        }
+
+        async function agregar() {
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const email = document.getElementById('email').value;
+            const especialidadId = document.getElementById('especialidadId').value;
+            if (!nombre || !telefono || !email || !especialidadId) { alert('Complete todos los campos'); return; }
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    telefono: telefono,
+                    email: email,
+                    especialidadId: parseInt(especialidadId),
+                    especialidad: null,
+                    cita: [],
+                    activo: true,
+                    fechaCreacion: new Date().toISOString()
+                })
+            });
+
+            if (response.ok) {
+                document.getElementById('nombre').value = '';
+                document.getElementById('telefono').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('especialidadId').value = '';
+                cargarEstilistas();
+            } else {
+                alert('Error al agregar: ' + response.status);
+            }
+        }
+
+        function editar(id, nombre, telefono, email, especialidadId) {
+            document.getElementById('formEditar').style.display = 'block';
+            document.getElementById('editId').value = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editTelefono').value = telefono;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editEspecialidadId').value = especialidadId;
+        }
+
+        async function actualizar() {
+            const id = document.getElementById('editId').value;
+            const nombre = document.getElementById('editNombre').value;
+            const telefono = document.getElementById('editTelefono').value;
+            const email = document.getElementById('editEmail').value;
+            const especialidadId = document.getElementById('editEspecialidadId').value;
+
+            const response = await fetch(`${apiUrl}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    estilistaId: parseInt(id),
+                    nombre: nombre,
+                    telefono: telefono,
+                    email: email,
+                    especialidadId: parseInt(especialidadId),
+                    especialidad: null,
+                    cita: [],
+                    activo: true,
+                    fechaCreacion: new Date().toISOString()
+                })
+            });
+
+            if (response.ok) {
+                cancelarEdicion();
+                cargarEstilistas();
+            } else {
+                alert('Error al actualizar: ' + response.status);
+            }
+        }
+
+        function cancelarEdicion() {
+            document.getElementById('formEditar').style.display = 'none';
+        }
+
+        async function eliminar(id) {
+            if (confirm('¿Desea eliminar este estilista?')) {
+                await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+                cargarEstilistas();
+            }
+        }
+
+        cargarEspecialidades();
+        cargarEstilistas();
     </script>
 
 </body>

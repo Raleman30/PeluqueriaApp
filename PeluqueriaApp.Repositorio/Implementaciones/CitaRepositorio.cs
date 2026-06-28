@@ -19,7 +19,7 @@ namespace PeluqueriaApp.Repositorio.Implementaciones
 
         public async Task<List<Cita>> Listar()
         {
-            return await _bd.Cita.ToListAsync();
+            return await _bd.Cita.Where(p => p.Estado == 1).ToListAsync();
         }
         public async Task<Cita> Agregar(Cita cita)
         {
@@ -51,7 +51,7 @@ namespace PeluqueriaApp.Repositorio.Implementaciones
             var cita = await _bd.Cita.FindAsync(id);
             if (cita == null) return false;
 
-            cita.Estado = 3;
+            cita.Estado = 2;
             await _bd.SaveChangesAsync();
             return true;
         }
