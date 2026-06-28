@@ -21,5 +21,19 @@ namespace PeluqueriaApp.Negocio.Implementaciones
             var resultado = await _repositorio.Listar();
             return resultado;
         }
+        public async Task<Cliente> Agregar(Cliente cliente)
+        {
+            return await _repositorio.Agregar(cliente);
+        }
+
+        public async Task<Cliente?> Actualizar(int id, Cliente cliente)
+        {
+            return await _repositorio.Actualizar(id, cliente);
+        }
+
+        public async Task<bool> Eliminar(int id)
+        {
+            return await _repositorio.Eliminar(id);
+        }
     }
 }

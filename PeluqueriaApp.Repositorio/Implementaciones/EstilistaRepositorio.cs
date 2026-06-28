@@ -22,5 +22,37 @@ namespace PeluqueriaApp.Repositorio.Implementaciones
         {
             return await _bd.Estilista.Where(p => p.Activo).ToListAsync();
         }
+        public async Task<Estilista> Agregar(Estilista estilista)
+        {
+            estilista.Activo = true;
+            estilista.FechaCreacion = DateTime.Now;
+            _bd.Estilista.Add(estilista);
+            await _bd.SaveChangesAsync();
+            return estilista;
+        }
+
+        public async Task<Estilista?> Actualizar(int id, Estilista estilista)
+        {
+            var existente = await _bd.Estilista.FindAsync(id);
+            if (existente == null) return null;
+
+            existente.Nombre = estilista.Nombre;
+            existente.Telefono = estilista.Telefono;
+            existente.Email = estilista.Email;
+            existente.EspecialidadId = estilista.EspecialidadId;
+
+            await _bd.SaveChangesAsync();
+            return existente;
+        }
+
+        public async Task<bool> Eliminar(int id)
+        {
+            var estilista = await _bd.Estilista.FindAsync(id);
+            if (estilista == null) return false;
+
+            estilista.Activo = false;
+            await _bd.SaveChangesAsync();
+            return true;
+        }
     }
 }
