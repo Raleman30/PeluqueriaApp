@@ -1,26 +1,25 @@
 ﻿using PeluqueriaApp.AccesoDatos.Models;
 using PeluqueriaApp.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using PeluqueriaApp.Repositorio.Interfaces;
-
 
 namespace PeluqueriaApp.Repositorio.Implementaciones
 {
-    public class EstilistaRepositorio : IEstilistaRepositorio
+    public class EspecialidadRepositorio : IEspecialidadRepositorio
     {
         private readonly CitasPeluqueriaContext _bd;
 
-        public EstilistaRepositorio(CitasPeluqueriaContext bd)
+        public EspecialidadRepositorio(CitasPeluqueriaContext bd)
         {
             _bd = bd;
         }
 
-        public async Task<List<Estilista>> Listar()
+        public async Task<List<Especialidad>> Listar()
         {
-            return await _bd.Estilista.Where(p => p.Activo).ToListAsync();
+            return await _bd.Especialidads.Where(p => p.Activo).ToListAsync();
         }
     }
 }
